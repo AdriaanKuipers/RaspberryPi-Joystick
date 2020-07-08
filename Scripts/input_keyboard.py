@@ -1,28 +1,10 @@
-# File name: input_keyboard.py
-# Created by https://github.com/milador/XAC-Virtual-Joystick
-# Author: Milad Hajihassan
-# Date created: 25/12/2018
-# Python Version: 2.7
-
-import os
 import sys
-import fcntl  
-import termios
 import time
-import random
-reload(sys)
-sys.setdefaultencoding("ISO-8859-1")
 		
 def getch():
-  import sys, tty, termios
-  init()
-  sleep_time = 0.050
-  old_settings = termios.tcgetattr(0)
-  new_settings = old_settings[:]
-  new_settings[3] &= ~termios.ICANON
-
-  try:
-    termios.tcsetattr(0, termios.TCSANOW, new_settings)
+    init()
+    sleep_time = 0.050
+    
     ch = sys.stdin.read(1)
     if (ch == 'd'):
         button_right(sleep_time)
@@ -53,12 +35,9 @@ def getch():
         sys.exit()
     else:
         clean_up()
-	pass
-    init()
-      
-  finally:
-    termios.tcsetattr(0, termios.TCSANOW, old_settings)
-  return ch
+        
+    return ch
+
 
 def write_report(report):
     with open('/dev/hidg0', 'rb+') as fd:
@@ -134,7 +113,7 @@ def clean_up():
 
 def main():
   
-  while True:
+    while True:
         print("\nKey: '" + getch() + "'\n")
 
 
